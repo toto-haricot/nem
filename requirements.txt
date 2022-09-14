@@ -1,0 +1,10 @@
+boto3
+numpy
+scipy
+wandb
+pandas
+matplotlib
+
+torch
+opencv-python
+albumentations

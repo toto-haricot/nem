@@ -1,0 +1,31 @@
+version: '2.3'
+
+services:
+  # jupyter lab service for research tests
+  jupyter-lab-nem:
+    image: noise-estimation-base:latest
+    runtime: nvidia
+    container_name: noise_estimation_model
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXUS_PIP_USER=${NEXUS_PIP_USER}
+        - NEXUS_PIP_PASS=${NEXUS_PIP_PASS}
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+        - AWS_ROLE_ARN=${AWS_ROLE_ARN}
+        - AWS_ROLE_SESSION_NAME=${AWS_ROLE_SESSION_NAME}
+    ports:
+            - 6897:8888
+    volumes:
+      - /data/thomas/iqa/:/workspace
+      - ${HOME}/.aws/:/root/.aws/
+      - ${HOME}/.ssh:/root/.ssh:ro
+      - ./jupyter_notebook_config.json:/root/.jupyter/jupyter_notebook_config.json  
+    working_dir: /workspace
+    environment: 
+      - AWS_PROFILE=rd
+    restart: always
+    # env_file:
+    #     - .env    
